@@ -12,7 +12,7 @@
 				<div class="banners">
 					<van-swipe :autoplay="3000"  class="csvanswipe" indicator-color="white"  :width="swipeWidth" :height="swipeHeigh">
 						<van-swipe-item class="csvanswipeItem" v-for="(bannerItem) in banners"  :key="bannerItem.picUrl">
-							<img class="csSwipeImg" :src="bannerItem.picUrl" />
+							<img class="csSwipeImg" :src="bannerItem.imageUrl" />
 						</van-swipe-item>
 					</van-swipe>
 					<div id="vanswipediv"></div>
@@ -58,6 +58,7 @@
 							<p class="singerP" v-html="item.name"></p>
 						</template>
 					</van-cell>
+					<div class="van-hairline--bottom"></div>
 					</a>
 				</van-list>
 			</van-tab>
