@@ -3,16 +3,16 @@
 		<van-nav-bar class="csnavbar" >
 			<van-icon name="apps-o" color="rgb(250,250,250)" size="25px" slot="left" />
 			<span class="csspan" slot="title">南强的网站</span>
-			<van-icon color="rgb(250,250,250)"  name="search"  size="25px"  slot="right" />
+			<van-icon color="rgb(250,250,250)"  name="search"  size="25px"  slot="right" @click="intoSearch" />
 		</van-nav-bar>
 		<van-tabs class="cstabs" v-model="active" background="rgb(212, 68, 57)" color="rgb(255, 255, 255)"  title-active-color="rgb(255, 255, 255)"	title-inactive-color="rgb(220, 220, 230)" swipeable>
 			<!-- 写推荐页面 -->
 			<van-tab  title="推荐">
 				<!-- 轮播组建 -->
 				<div class="banners">
-					<van-swipe :autoplay="3000"  class="csvanswipe" indicator-color="white">
-						<van-swipe-item class="csvanswipeItem" v-for="bannerItem in banners"  :key="bannerItem.picUrl">
-							<img class="csSwipeImg" :src="bannerItem.picUrl" width="100%">
+					<van-swipe :autoplay="3000"  class="csvanswipe" indicator-color="white"  :width="swipeWidth" :height="swipeHeigh">
+						<van-swipe-item class="csvanswipeItem" v-for="(bannerItem) in banners"  :key="bannerItem.picUrl">
+							<img class="csSwipeImg" :src="bannerItem.picUrl" />
 						</van-swipe-item>
 					</van-swipe>
 					<div id="vanswipediv"></div>
@@ -80,6 +80,8 @@ export default {
 			personalized:[],
 			rankeList:[],
 			singerlist:[],
+			swipeWidth:0,
+			swipeHeigh:0,
 			entryList:[
 				{index:1,name:"tv-o",description:"私人fm"},
 				{index:2,name:"notes-o",description:"每日推荐"},
@@ -94,6 +96,9 @@ export default {
 				singerid=0;
 			}
 			this.$router.push({ name: 'songsheet', params: { sheetid,singerid }})
+		},
+		intoSearch(){
+			this.$router.push({ name: 'search'});
 		}
 	},
 	created:function(){
@@ -123,6 +128,11 @@ export default {
 
 			});
 	},
+	mounted(){
+		this.swipeWidth = ((document.body.clientWidth)*0.9).toFixed(2);
+		this.swipeHeigh=(0.46*swipeWidth).toFixed(2)
+		console.log(swipeHeigh);
+	},
 	components: {
 		sheetentry,
 		rankitem
@@ -134,12 +144,14 @@ export default {
 		background-color: rgb(212, 68, 57);
 		
 	}
+	.csvanswipe{
+		margin-left: 5%;
+		margin-right: 5%;
+	}
 	.csSwipeImg{
 		border-radius: 6px;
-	}
-	.csvanswipe{
-		width: 90%;
-		margin-left: 5%;
+		width: 100%;
+		height: 100%;
 	}
 	.csspan{
 		color: rgb(250,250,250);
@@ -149,6 +161,7 @@ export default {
 		position: relative;
 		left:0;
 		right:0 ;
+		height: 200;
 	}
 	#vanswipediv{
         content: '';
