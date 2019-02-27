@@ -72,7 +72,6 @@ import rankitem from "./../components/rank-item.vue"
 
 export default {
 	name:"home",
-	methods:{},
 	data(){
 		return {
 			active:"0",
@@ -129,9 +128,8 @@ export default {
 			});
 	},
 	mounted(){
-		this.swipeWidth = ((document.body.clientWidth)*0.9).toFixed(2);
-		this.swipeHeigh=(0.46*swipeWidth).toFixed(2)
-		console.log(swipeHeigh);
+		this.swipeWidth =parseInt(((document.body.clientWidth)*0.9).toFixed(0));
+		this.swipeHeigh=parseInt((0.46*this.swipeWidth).toFixed(0));
 	},
 	components: {
 		sheetentry,
