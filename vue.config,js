@@ -46,10 +46,10 @@ module.exports = {
 
     devServer: {
         port: 8080, // 端口号
-        host: 'http://192.168.18.104',
+        host: 'http://192.168.18.107',
         https: false, // https:{type:Boolean}
         open: true, //配置自动启动浏览器
-        proxy: 'http://192.168.18.104:3000' // 配置跨域处理,只有一个代理
+        proxy: 'http://192.168.18.107:3000' // 配置跨域处理,只有一个代理
     //  proxy: {
     //        '/sell': {
     //            target: 'http://127.0.0.1/sell',   // 需要请求的地址
