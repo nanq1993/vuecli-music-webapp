@@ -2,7 +2,7 @@
 	 <div class="sheet-list">
 		<van-list error-text="请求失败，点击重新加载">
 			<van-cell  :title="'播放全部('+songlist.length+')'" icon="play-circle-o"></van-cell>
-			<van-cell :clickable="true" v-for="(item,index) in songlist" :key="index">
+			<van-cell :clickable="true" v-for="(item,index) in songlist" :key="index" @click="playMusic(index)">
 				<template class="sheet-list-item" slot="title">
 					<van-row>
 					<van-col span="3">
@@ -23,6 +23,8 @@
  </template>
  
  <script>
+import configs from "./../config/appConfig.js";
+
  export default {
 	 props: {
 		 songlist:Array,
@@ -41,10 +43,13 @@
  
 	 },
 	 watch: {
- 
+		 
 	 },
 	 methods: {
- 
+		playMusic(index){
+		  this.$root.$children[0].musicArr=this.songlist;
+		  this.$root.$children[0].currentIndexRender=index;
+		} 
 	 },
 	 components: {
  

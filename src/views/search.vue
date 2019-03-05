@@ -20,53 +20,62 @@
 				</li>
 			</ul>
 		</div>
-	 	<div class="searchresult" v-show="searched">
-			<!-- 搜索结果 -->
-			<h4 v-show="songsheetobj||singerlistobj"  class="searchresult-guess">你可能感兴趣</h4>
-			<ul>
-				<li v-show="singerlistobj.name" class="searchresult-item-li van-hairline--bottom flexlayout" @click="gotosheet(0,singerlistobj.id)">
-					<img class="searchresult-item-img"  :src="singerlistobj.img1v1Url" />
-					<span class="searchresult-item-span" v-html="highLight('歌手：'+singerlistobj.name)"></span>
-				</li>
-				<li v-show="songsheetobj.name"  class="searchresult-item-li van-hairline--bottom flexlayout" @click="gotosheet(songsheetobj.id,0)">
-					<img class="searchresult-item-img"  :src="songsheetobj.coverImgUrl"/>
-					<span class="searchresult-item-span van-hairline--bottom"  v-html="highLight('歌单：'+songsheetobj.name)"></span>
-				</li>
-				<li v-show="resultlist" v-for="(item,index) in resultlist" :key="index"  class=".searchresult-item-songli van-hairline--bottom" @click="gotoSong(item.id)">
-					<div>
-						<span class="searchresult-item-span-song"  v-html="highLight(item.name)"></span><br>
-						<span class="searchresult-item-span-singer"  v-html="highLight(item.artists[0].name)"></span>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<div class="unsearch" v-show="!searched">
-			<!-- 未搜索 -->
-			<div class="unsearch-hotsearch">
-				<p class="unsearch-hotsearch-p van-hairline--bottom" >热门搜索</p>
-				<div class="unsearch-hotsearch-item" v-for="(item,index) in hots" :key="index" >
-					<a  @click.prevent="clickToSearch(item.first)"><span v-html="item.first"></span></a>
-				</div>
-			</div>
-			<div class="unsearch-history" v-show="historySearch">
+		<div class="searchresult" v-show="searched">
+			<scroll class="wrapper"  :data="resultlist"  data2="bottom" :style="{bottom:bottom}" >
+			<div class="content">
+				<!-- 搜索结果 -->
+				<h4 v-show="songsheetobj||singerlistobj"  class="searchresult-guess">你可能感兴趣</h4>
 				<ul>
-					<li class="unsearch-history-li van-hairline--top-bottom">
-						<a  href="javascript:void(0)" class="unsearch-history-li-a" ><span class="unsearch-history-li-span" >搜索历史</span></a>
-						<van-icon class="unsearch-history-li-icon" name="delete" @click="destroyHisttory()"/>
+					<li v-show="singerlistobj.name" class="searchresult-item-li van-hairline--bottom flexlayout" @click="gotosheet(0,singerlistobj.id)">
+						<img class="searchresult-item-img"  :src="singerlistobj.img1v1Url" />
+						<span class="searchresult-item-span" v-html="highLight('歌手：'+singerlistobj.name)"></span>
 					</li>
-					<li class="unsearch-history-li van-hairline--top-bottom" v-for="(item,index) in historySearch" :key="index">
-						<van-icon  name="clock-o"/>
-						<a @click.prevent="clickToSearch(item)" class="unsearch-history-li-a" ><span class="unsearch-history-li-span" >{{item}}</span></a>
-						<van-icon class="unsearch-history-li-icon" name="cross" @click="deleteHistory(index)"/>
+					<li v-show="songsheetobj.name"  class="searchresult-item-li van-hairline--bottom flexlayout" @click="gotosheet(songsheetobj.id,0)">
+						<img class="searchresult-item-img"  :src="songsheetobj.coverImgUrl"/>
+						<span class="searchresult-item-span van-hairline--bottom"  v-html="highLight('歌单：'+songsheetobj.name)"></span>
+					</li>
+					<li v-show="resultlist" v-for="(item,index) in resultlist" :key="index"  class=".searchresult-item-songli van-hairline--bottom" @click="gotoSong(item)">
+						<div>
+							<span class="searchresult-item-span-song"  v-html="highLight(item.name)"></span><br>
+							<span class="searchresult-item-span-singer"  v-html="highLight(item.artists[0].name)"></span>
+						</div>
 					</li>
 				</ul>
 			</div>
+			</scroll>
+		</div>
+		<div class="unsearch" v-show="!searched">
+			<scroll class="wrapper"  :data="historySearch"  data2="bottom" :style="{bottom:bottom}" >
+			<div class="content">
+				<!-- 未搜索 -->
+				<div class="unsearch-hotsearch">
+					<p class="unsearch-hotsearch-p van-hairline--bottom" >热门搜索</p>
+					<div class="unsearch-hotsearch-item" v-for="(item,index) in hots" :key="index" >
+						<a  @click.prevent="clickToSearch(item.first)"><span v-html="item.first"></span></a>
+					</div>
+				</div>
+				<div class="unsearch-history" v-show="historySearch">
+					<ul>
+						<li class="unsearch-history-li van-hairline--top-bottom">
+							<a  href="javascript:void(0)" class="unsearch-history-li-a" ><span class="unsearch-history-li-span" >搜索历史</span></a>
+							<van-icon class="unsearch-history-li-icon" name="delete" @click="destroyHisttory()"/>
+						</li>
+						<li class="unsearch-history-li van-hairline--top-bottom" v-for="(item,index) in historySearch" :key="index">
+							<van-icon  name="clock-o"/>
+							<a @click.prevent="clickToSearch(item)" class="unsearch-history-li-a" ><span class="unsearch-history-li-span" >{{item}}</span></a>
+							<van-icon class="unsearch-history-li-icon" name="cross" @click="deleteHistory(index)"/>
+						</li>
+					</ul>
+				</div>
+			</div>
+			</scroll>
 		</div>
 	 </div>
  </template>
  <script>
 import configs from "./../config/appConfig.js"
-
+import { mapState,mapGetters , mapMutations} from "vuex"
+import scroll from "./../components/scroll.vue"
  export default {
 	 props: {
 		 
@@ -85,7 +94,7 @@ import configs from "./../config/appConfig.js"
 		 };
 	 },
 	 computed: {
-		 
+		 ...mapState(["showPlayer","bottom"]),
 	 },
 	 created() {
 		 var _this=this;
@@ -143,7 +152,6 @@ import configs from "./../config/appConfig.js"
 			//歌手
 			this.$http.get(configs.APIURL+"/search",{params:{keywords:keywords,type:"100"}})
 				.then(response=>{
-					console.log(response.data);
 					_this.singerlistobj=response.data.result.artists[0];
 				}).catch(err=>{
 
@@ -151,7 +159,6 @@ import configs from "./../config/appConfig.js"
 			//歌单
 			this.$http.get(configs.APIURL+"/search",{params:{keywords:keywords,type:"1000"}})
 				.then(response=>{
-					console.log(response.data);
 					_this.songsheetobj=response.data.result.playlists[0];
 				}).catch(err=>{
 
@@ -159,7 +166,6 @@ import configs from "./../config/appConfig.js"
 			//歌曲
 			this.$http.get(configs.APIURL+"/search",{params:{keywords:keywords,type:"1"}})
 				.then(response=>{
-					console.log(response.data);
 					_this.resultlist=response.data.result.songs
 				}).catch(err=>{
 
@@ -177,8 +183,13 @@ import configs from "./../config/appConfig.js"
 			}
 			this.$router.push({ name: 'songsheet', params: { sheetid,singerid }})
 		},
-		gotoSong(id){
-
+		gotoSong(item){
+			var arrTemp=new Array();
+			item.ar=item.artists;
+			arrTemp.push(item);
+			console.log(arrTemp);
+			this.$root.$children[0].musicArr=arrTemp;
+			this.$root.$children[0].currentIndexRender=0;
 		},
 		getHistory(){
 			var historyJson=localStorage.getItem("historySearch");
@@ -207,12 +218,20 @@ import configs from "./../config/appConfig.js"
 		}
 	 },
 	 components: {
- 
-	 },
+		 scroll
+	 },	
  };
  </script>
  
  <style>
+ .wrapper{
+		position: fixed;
+		top: 50px;
+		bottom: 0px;
+		right: 0px;
+		left: 0px;
+		overflow: hidden;
+	}
  .search-field{
 	 background-color: rgb(212, 68, 57);
 	 size: 30px;

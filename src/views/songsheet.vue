@@ -9,28 +9,32 @@
 				<van-col span="3"></van-col>
 			</van-row>
 		</div>
-		 <div class="songsheet-detail" >
-			<van-row>
-			<van-col span="12" >
-				<center>
-					<div class="songsheet-detail-left" :style="{backgroundImage: 'url(' + picUrl + ')'}"></div>
-				</center>
-			</van-col>
-			<van-col span="12">
-			<div class="songsheet-detail-right">
-				<p class="songsheet-title" v-html="title"></p>
-				<div class="songsheet-creater" v-if="creator">
-					<div class="songsheet-creater-img" :style="{backgroundImage: 'url(' + creator.avatarUrl + ')'}"></div>
-					<div class="songsheet-creater-name" v-html="creator.nickname"></div>
+		<scroll class="wrapper"  data2="bottom" :style="{bottom:bottom}">
+		<div class="content">
+			<div class="songsheet-detail" >
+				<van-row>
+				<van-col span="12" >
+					<center>
+						<div class="songsheet-detail-left" :style="{backgroundImage: 'url(' + picUrl + ')'}"></div>
+					</center>
+				</van-col>
+				<van-col span="12">
+				<div class="songsheet-detail-right">
+					<p class="songsheet-title" v-html="title"></p>
+					<div class="songsheet-creater" v-if="creator">
+						<div class="songsheet-creater-img" :style="{backgroundImage: 'url(' + creator.avatarUrl + ')'}"></div>
+						<div class="songsheet-creater-name" v-html="creator.nickname"></div>
+					</div>
+					<p  v-if="description" v-html="description" class="songsheet-description"></p>
 				</div>
-				<p  v-if="description" v-html="description" class="songsheet-description"></p>
+				</van-col>
+				</van-row>
 			</div>
-			</van-col>
-			</van-row>
-		 </div>
-		 <div>
-		 	<songsheetlist :songlist="songlist"></songsheetlist>
-		 </div>
+			<div>
+				<songsheetlist :songlist="songlist"></songsheetlist>
+			</div>
+		</div>
+		</scroll>
 	 </div>
  </template>
  
@@ -38,6 +42,8 @@
 
 	import configs from "./../config/appConfig.js"
 	import songsheetlist from "./../components/song-sheet-list.vue"
+	import scroll from "./../components/scroll.vue"
+	import { mapState,mapGetters , mapMutations} from "vuex"
  export default {
 	 props: {
 		 sheetid:Number,
@@ -53,7 +59,7 @@
 		 };
 	 },
 	 computed: {
-		 
+		 ...mapState(["showPlayer","bottom"]),
 	 },
 	 created() {
 		 var _this=this;
@@ -94,21 +100,30 @@
 		}
 	 },
 	 components: {
-		songsheetlist
+		songsheetlist,
+		scroll,
 	 },
  };
  </script>
  
  <style scoped>
+	.wrapper{
+		position: fixed;
+		top: 40px;
+		bottom: 0px;
+		right: 0px;
+		left: 0px;
+		overflow: hidden;
+	}
+	.content{
+		width: 100%;
+	}
 	.songsheet-detail{
 		padding: 25PX;
 	}
 	.header{
 		padding-top: 10px;
 		height: 50px;
-	}
-	.header-back{
-
 	}
 	.header-title{
 		padding-top:0px;
@@ -123,7 +138,7 @@
 		color: #fff;
 	}
 	.backgroundimg{
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -135,7 +150,7 @@
 		background-size: cover;
 	}
 	.backgrounddiv{
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
