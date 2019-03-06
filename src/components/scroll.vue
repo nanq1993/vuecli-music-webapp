@@ -52,6 +52,13 @@
       data2: {
         type: String,
         default: "0px"
+      },
+      /**
+       * 列表的数据
+       */
+      data3: {
+        type: Number,
+        default: 0
 	    },
       /**
        * 是否派发滚动到底部的事件，用于上拉加载
@@ -167,7 +174,13 @@
         setTimeout(() => {
           this.refresh()
         }, this.refreshDelay)
-	    }
+      },
+      data3() {
+        this.$toast(this.data3);
+        setTimeout(() => {
+          this.refresh()
+        }, this.refreshDelay)
+	    },
     }
   }
 </script>

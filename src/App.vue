@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <div class="cs-router" :style="{bottom:bottom}">
-      <keep-alive>
+      <!-- <keep-alive>
         <router-view v-if="$route.meta.keepAlive"/>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"/>
+      <router-view v-if="!$route.meta.keepAlive"/> -->
+       <router-view></router-view>
      </div>
      <audio :src="musicSrc" ref="audio1" autoplay @ended="playEnd"></audio>
      <div class="cs-player" v-show="showPlayer" >
@@ -81,12 +82,28 @@ export default {
       }
       this.currentIndexRender=this.currentIndex+1;
     },
-    ...mapMutations(["setIsPlay","setPlayHeigh"])
+    getSongDetail(){
+      var  _this=this;
+      this.$http.get(configs.APIURL+"/song/detail?ids="+this.musicArr[this.currentIndex].id)
+        .then(response=>{
+          _this.playerSinger=response.data.songs[0].ar.map(function(item){
+            return item.name
+          });
+          _this.playerPic=response.data.songs[0].al.picUrl;
+          _this.playerName=response.data.songs[0].name;
+        }).catch(err=>{
+
+        });
+        this.startPlay=true;
+        this.isPlay=true;
+    },
+    ...mapMutations(["setIsPlay","setPlayHeigh","setScreenHeigh"])
   },
   watch: {
     startPlay(val, oldVal){
       if(val){
         this.setIsPlay(true);
+        this.setScreenHeigh(this.screenHeight-60);
         this.setPlayHeigh("60px"); 
       }else{
         this.setIsPlay(false);
@@ -100,35 +117,31 @@ export default {
         this.currentIndex;
       },
       set:function(newValue){
-        this.currentIndex=newValue;
-        if(!this.musicArr[this.currentIndex])return;
-        console.log(this.musicArr);
+        if(!this.musicArr[newValue])return;
         var _this=this;
-        this.$http.get(configs.APIURL+"/song/url?id="+this.musicArr[this.currentIndex].id)
+        this.$http.get(configs.APIURL+"/song/url?id="+this.musicArr[newValue].id)
         .then(response=>{
           if(_this.musicSrc==response.data.data[0].url&&_this.isPlay==false){
               _this.isPlay=true;
               this.$refs.audio1.play();
           }
+          if(!response.data.data[0].url){
+            this.$toast("暂时找不到这首歌的路径，请选择其他歌曲");
+            return;
+          }
           _this.musicSrc=response.data.data[0].url;
-          _this.isPlay=true;
+          _this.currentIndex=newValue;
+          _this.getSongDetail()
         }).catch(err=>{
-
+          console.log(err);
         });
-        this.$http.get(configs.APIURL+"/song/detail?ids="+this.musicArr[this.currentIndex].id)
-        .then(response=>{
-          _this.playerSinger=response.data.songs[0].ar.map(function(item){
-            return item.name
-          });
-          _this.playerPic=response.data.songs[0].al.picUrl;
-          _this.playerName=response.data.songs[0].name;
-        }).catch(err=>{
-
-        });
-        this.startPlay=true;
       }
     },
-    ...mapState(["showPlayer","bottom"]),
+    ...mapState(["showPlayer","bottom","screenHeight"]),
+  },
+  mounted () {
+    var screenHeight=document.documentElement.clientHeight;
+    this.setScreenHeigh(screenHeight);
   }
 }
 </script>
@@ -151,6 +164,9 @@ export default {
 body {
   margin: 0px;
   padding: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .cs-player{
   width: 100%;

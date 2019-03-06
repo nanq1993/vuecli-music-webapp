@@ -5,7 +5,7 @@
 			v-model="searchtext"
 			:clearable="true"
 			left-icon="arrow-left"
-			:autofocus="true"
+			:autofocus="false"
 			size="medium"
 			@input="getKeyWords"
 			placeholder="请输入搜索内容"
@@ -187,7 +187,6 @@ import scroll from "./../components/scroll.vue"
 			var arrTemp=new Array();
 			item.ar=item.artists;
 			arrTemp.push(item);
-			console.log(arrTemp);
 			this.$root.$children[0].musicArr=arrTemp;
 			this.$root.$children[0].currentIndexRender=0;
 		},

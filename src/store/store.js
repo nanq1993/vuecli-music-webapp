@@ -6,11 +6,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state:{
 		showPlayer:false,
-		bottom:"0px"
+		bottom:"0px",
+		screenHeight:800,
 	},
 	getters:{
 		getIsPlay:state=>state.showPlayer,
 		getPlayHeigh:state=>state.bottom,
+		getscreenHeigh:state=>state.screenHeight
 	},
 	mutations:{
 		setIsPlay(state,date){
@@ -18,6 +20,9 @@ export default new Vuex.Store({
 		},
 		setPlayHeigh(state,date){
 			state.bottom=date;
+		},
+		setScreenHeigh(state,date){
+			state.screenHeight=date;
 		}
 	}
 })
