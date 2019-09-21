@@ -12,14 +12,15 @@
 			<div id="vanswipediv"></div>
 		</div>
 		<!-- 私人fm 每日推荐 歌单 和排行榜入口 -->
-		<div class="entry">
+<!-- 		<div class="entry">
 			<van-row gutter="10">
 				<van-col v-for="entryItem in entryList" :key="entryItem.index" span="6" >
 					<van-icon class="entryIcon" :name="entryItem.name" color="red" size="3em"></van-icon>
 					<p v-html="entryItem.description"></p>
 				</van-col>
 			</van-row>
-		</div>
+		</div> -->
+    <div class="line_02"><span>今日歌单推荐</span></div>
 		<!-- 推荐歌单 -->
 		<div class='sheet-entry-div'>
 			<van-row gutter="10" v-for="n in Math.ceil(personalized.length/3)" :key="n">
@@ -47,7 +48,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 
  export default {
 	 props: {
- 
+
 	 },
 	 data() {
 		 return {
@@ -69,7 +70,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 	 },
 	 created() {
 		 var _this=this;
-		this.$http.get(configs.APIURL+"/banner")
+		 this.$http.get(configs.APIURL+"/banner")
 		.then(response=>{
 			_this.banners=response.data.banners;
 		}).catch(err=>{
@@ -78,7 +79,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 		this.$http.get(configs.APIURL+"/personalized")
 		.then(response=>{
 			_this.personalized=response.data.result;
-			
+
 		}).catch(err=>{
 
 		});
@@ -94,7 +95,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 			}
 			this.$router.push({ name: 'songsheet', params: { sheetid,singerid }})
 		},
-		
+
 	 },
 	 components: {
 		 sheetentry,
@@ -102,7 +103,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 	 },
  };
  </script>
- 
+
  <style scoped>
 	.wrapper{
 		position: fixed;
@@ -129,29 +130,40 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 		height: 200;
 	}
 	#vanswipediv{
-        content: '';
+    content: '';
 		position: absolute;
-        top:0;
+    top:0;
 		left:0;
 		right:0 ;
 		bottom:20%;
-        background-color:rgb(212, 68, 57);
-        z-index: -1;
+    background-color:rgb(212, 68, 57);
+    z-index: -1;
 	}
 	.entry{
 		position: relative;
 		text-align: center;
-        top:5px;
+    top:5px;
 		left:0;
 		right:0 ;
 	}
+  .line_02{
+      height: 1px;
+      border-top: 3px solid rgb(212, 68, 57);
+      text-align: center;
+      margin: 30px 5px;
+  }
+  .line_02 span{
+      position: relative;
+      top: -12px;
+      background: #fff;
+      padding: 0 20px;
+  }
 	.sheet-entry-div{
-		text-align: center;
-		width: 100%;
+      text-align: center;
+      width: 100%;
 	}
-	.entryIcon{
-		display: block;
+  .entryIcon{
+    display: block;
 	}
+
  </style>
- 
- 

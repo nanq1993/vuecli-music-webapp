@@ -5,7 +5,7 @@
 			<span class="csspan" slot="title">南强的网站</span>
 			<van-icon color="rgb(250,250,250)"  name="search"  size="25px"  slot="right" @click="intoSearch" />
 		</van-nav-bar>
-		<van-tabs class="cstabs" lazy-render="false" v-model="active" background="rgb(212, 68, 57)" color="rgb(255, 255, 255)"  title-active-color="rgb(255, 255, 255)"	title-inactive-color="rgb(220, 220, 230)" swipeable>
+		<van-tabs class="cstabs" v-bind:lazy-render="false" v-model="active" background="rgb(212, 68, 57)" color="rgb(255, 255, 255)"  title-active-color="rgb(255, 255, 255)"	title-inactive-color="rgb(220, 220, 230)" swipeable>
 			<!-- 写推荐页面 -->
 			<van-tab  title="推荐">
 				<recommend></recommend>

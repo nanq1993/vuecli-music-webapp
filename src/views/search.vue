@@ -78,7 +78,7 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 import scroll from "./../components/scroll.vue"
  export default {
 	 props: {
-		 
+
 	 },
 	 data() {
 		 return {
@@ -107,7 +107,7 @@ import scroll from "./../components/scroll.vue"
 		this.getHistory();
 	 },
 	 mounted() {
-		 
+
 	 },
 	 watch: {
 		 searchtext(val){
@@ -218,10 +218,10 @@ import scroll from "./../components/scroll.vue"
 	 },
 	 components: {
 		 scroll
-	 },	
+	 },
  };
  </script>
- 
+
  <style>
  .wrapper{
 		position: fixed;
@@ -301,6 +301,7 @@ import scroll from "./../components/scroll.vue"
  }
  .unsearch-hotsearch{
 	 float: left;
+   width: 100%;
  }
  .unsearch-hotsearch-item{
 	border:1px solid rgb(212, 68, 57);
@@ -311,10 +312,12 @@ import scroll from "./../components/scroll.vue"
  }
  .unsearch-hotsearch-p{
 	 padding: 10px 15px;
-	 
+   font-family:"simsun";
+
  }
  .unsearch-history{
-
+    float: left;
+    width: 100%;
  }
  .unsearch-history-li{
 	 padding: 10px ;
@@ -329,4 +332,3 @@ import scroll from "./../components/scroll.vue"
 	margin-left: 10px
 }
  </style>
- 

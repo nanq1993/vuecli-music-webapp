@@ -1,4 +1,4 @@
 export default {
-	// APIURL:"http://192.168.18.107:3000"
-	APIURL:""
-} 
+	APIURL:"http://132.232.128.142:4000"
+	//APIURL:""
+}

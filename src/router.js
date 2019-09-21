@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from './views/home.vue'
+import home from './views/Home.vue'
 import songsheet from "./views/songsheet.vue"
 import search from './views/search.vue'
 
