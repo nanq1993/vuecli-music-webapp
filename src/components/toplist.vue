@@ -1,5 +1,5 @@
 <template>
-	<scroll class="wrapper"  :data="rankeList"  data2="bottom" :style="{bottom:bottom}">
+	<scroll class="wrapper"  ref="wrapper"  :data="rankeList"  data2="bottom" :style="{bottom:bottom}">
 			<div class="content">
 				<div class="ranker">
 					<a  v-for="(item,index) in rankeList" :key="index"  @click.prevent="gotosheet(item.id)">
@@ -29,16 +29,19 @@ export default {
 		...mapState(["showPlayer","bottom"]),
 	},
 	created() {
-		var _this=this;
 			this.$http.get(configs.APIURL+"/toplist/detail")
 			.then(response=>{
-				_this.rankeList=response.data.list;
+				this.rankeList=response.data.list;
+        this.$nextTick(()=>{
+          this.$refs.wrapper._initScroll();
+
+        });
 			}).catch(err=>{
 
 			});
 	},
 	mounted() {
-		
+
 	},
 	watch: {
 

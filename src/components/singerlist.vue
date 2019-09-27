@@ -1,12 +1,12 @@
 <template>
-	<scroll class="wrapper"  :data="singerlist"  data2="bottom" :style="{bottom:bottom}" >
+	<scroll class="wrapper"   ref="wrapper"  :data="singerlist"  :data2="bottom" :style="{bottom:bottom}" >
 			<div class="content">
 				<van-list finished-text="没有更多了">
 					<a  v-for="(item,index) in singerlist" :key="index" @click.prevent="gotosheet(0,item.id)">
 					<van-cell  >
 						<template class="singertemplate"  slot="title">
 							<div class="singerIMGDiv"  v-lazy:background-image="item.picUrl">
-							</div> 
+							</div>
 							<p class="singerP" v-html="item.name"></p>
 						</template>
 					</van-cell>
@@ -31,10 +31,13 @@ export default {
 		...mapState(["showPlayer","bottom"]),
 	},
 	created() {
-		var _this=this;
 			this.$http.get(configs.APIURL+"/top/artists")
 			.then(response=>{
-				_this.singerlist=response.data.artists;
+				this.singerlist=response.data.artists;
+        this.$nextTick(()=>{
+          this.$refs.wrapper._initScroll();
+
+        });
 			}).catch(err=>{
 
 			});
@@ -46,6 +49,9 @@ export default {
 			}
 			this.$router.push({ name: 'songsheet', params: { sheetid,singerid }})
 		},
+    toinitScroll(){
+      this.$refs.wrapper._initScroll();
+    }
 	},
 	components: {
 		scroll

@@ -9,7 +9,7 @@
 				<van-col span="3"></van-col>
 			</van-row>
 		</div>
-		<scroll class="wrapper"  data2="bottom" :style="{bottom:bottom}">
+		<scroll class="wrapper"  ref="wrapper"  :data2="bottom" :style="{bottom:bottom}">
 		<div class="content">
 			<div class="songsheet-detail" >
 				<van-row>
@@ -37,7 +37,7 @@
 		</scroll>
 	 </div>
  </template>
- 
+
  <script>
 
 	import configs from "./../config/appConfig.js"
@@ -46,8 +46,8 @@
 	import { mapState,mapGetters , mapMutations} from "vuex"
  export default {
 	 props: {
-		 sheetid:Number,
-		 singerid:Number,
+		 sheetid:[String, Number],
+		 singerid:[String, Number],
 	 },
 	 data() {
 		 return {
@@ -64,40 +64,41 @@
 	 created() {
 		 var _this=this;
 		 if(this.sheetid){
-			this.$http.get(configs.APIURL+"/playlist/detail",{params:{id:this.sheetid}})
+			this.$http.get(configs.APIURL+"/playlist/detail",{params:{id:""+this.sheetid}})
 			.then(response=>{
-				console.log(response)
 				_this.songlist=response.data.playlist.tracks;
 				_this.picUrl=response.data.playlist.coverImgUrl;
 				_this.creator=response.data.playlist.creator;
 				_this.title=response.data.playlist.name;
 				_this.description=response.data.playlist.description;
 			}).catch(err=>{
-
+          console.log(err)
 			});
 		 }else if(this.singerid){
-			  this.$http.get(configs.APIURL+"/artists",{params:{id:this.singerid}})
+			 this.$http.get(configs.APIURL+"/artists",{params:{id:""+this.singerid}})
 			.then(response=>{
-				console.log(response)
 				_this.songlist=response.data.hotSongs;
 				_this.picUrl=response.data.artist.picUrl;
 				_this.title=response.data.artist.name;
 				_this.description=response.data.artist.briefDesc;
 			}).catch(err=>{
-
+          console.log(err)
 			});
 		 }
 	 },
 	 mounted() {
-		
+
 	 },
 	 watch: {
- 
+
 	 },
 	 methods: {
 		onClickLeft(){
 			this.$router.go(-1)
-		}
+		},
+    toinitScroll(){
+      this.$refs.wrapper._initScroll();
+    }
 	 },
 	 components: {
 		songsheetlist,
@@ -105,7 +106,7 @@
 	 },
  };
  </script>
- 
+
  <style scoped>
 	.wrapper{
 		position: fixed;
@@ -200,7 +201,7 @@
 		color: #fff;
 	}
 	.songsheet-description{
-		margin-bottom:0px; 
+		margin-bottom:0px;
 		position: relative;
 		bottom: 0px;
 		font-size: 12px;
@@ -211,4 +212,3 @@
 		color: #fff;
 	}
  </style>
- 

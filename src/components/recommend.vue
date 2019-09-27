@@ -1,6 +1,6 @@
  <template>
  <div>
-	<scroll class="wrapper"  :data="personalized" data2="bottom" :style="{bottom:bottom}" >
+	<scroll class="wrapper"  ref="wrapper"  :data="personalized" :data2="bottom" :style="{bottom:bottom}" >
 		<div class="content">
 		<!-- 轮播组建 -->
 		<div class="banners">
@@ -69,17 +69,21 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 		 ...mapState(["showPlayer","bottom"]),
 	 },
 	 created() {
-		 var _this=this;
 		 this.$http.get(configs.APIURL+"/banner")
 		.then(response=>{
-			_this.banners=response.data.banners;
+			this.banners=response.data.banners;
+      this.$nextTick(()=>{
+        this.$refs.wrapper._initScroll();
+      });
 		}).catch(err=>{
 
 		});
 		this.$http.get(configs.APIURL+"/personalized")
 		.then(response=>{
-			_this.personalized=response.data.result;
-
+			this.personalized=response.data.result;
+      this.$nextTick(()=>{
+        this.$refs.wrapper._initScroll();
+      });
 		}).catch(err=>{
 
 		});
@@ -95,7 +99,6 @@ import { mapState,mapGetters , mapMutations} from "vuex"
 			}
 			this.$router.push({ name: 'songsheet', params: { sheetid,singerid }})
 		},
-
 	 },
 	 components: {
 		 sheetentry,

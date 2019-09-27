@@ -51,7 +51,7 @@
 				<div class="unsearch-hotsearch">
 					<p class="unsearch-hotsearch-p van-hairline--bottom" >热门搜索</p>
 					<div class="unsearch-hotsearch-item" v-for="(item,index) in hots" :key="index" >
-						<a  @click.prevent="clickToSearch(item.first)"><span v-html="item.first"></span></a>
+						<a  @click.prevent="clickToSearch(item.first)"><span  class="item-spans" v-html="item.first"></span></a>
 					</div>
 				</div>
 				<div class="unsearch-history" v-show="historySearch">
@@ -309,6 +309,7 @@ import scroll from "./../components/scroll.vue"
 	padding: 5px 12px;
 	margin: 7px 5px;
 	border-radius:8px;
+  height: 20px;
  }
  .unsearch-hotsearch-p{
 	 padding: 10px 15px;

@@ -21,7 +21,7 @@
 		</van-list>
 	 </div>
  </template>
- 
+
  <script>
 import configs from "./../config/appConfig.js";
 
@@ -31,35 +31,35 @@ import configs from "./../config/appConfig.js";
 	 },
 	 data() {
 		 return {
- 
+
 		 };
 	 },
 	 computed: {
- 
+
 	 },
 	 created() {
 	 },
 	 mounted() {
- 
+
 	 },
 	 watch: {
-		 
+
 	 },
 	 methods: {
 		playMusic(index){
 		  this.$root.$children[0].musicArr=this.songlist;
 		  this.$root.$children[0].currentIndexRender=index;
-		} 
+		}
 	 },
 	 components: {
- 
+
 	 },
  };
  </script>
- 
+
  <style scoped >
 	.sheet-list{
-		
+
 	}
 	.list-item-index{
 		height: 20px;
@@ -95,4 +95,3 @@ import configs from "./../config/appConfig.js";
 		margin-top: 14px;
 	}
  </style>
- 
